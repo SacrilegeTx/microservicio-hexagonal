@@ -1,0 +1,21 @@
+package rules;
+
+import com.webflux.pruebatecnica.domain.model.EmployeeServiceRequest;
+import com.webflux.pruebatecnica.domain.model.ProductServiceRequest;
+
+global com.webflux.pruebatecnica.infraestructure.adapter.EmployeeMongoReactiveAdapter employeeAdapter;
+global com.webflux.pruebatecnica.infraestructure.adapter.ProductCassandraReactiveAdapter productAdapter;
+
+rule "Connect to Employee Microservice"
+when
+    $req : EmployeeServiceRequest(url matches ".*/employee/.*")
+then
+    $req.setService(employeeAdapter);
+end
+
+rule "Connect to Product Microservice"
+when
+    $req : ProductServiceRequest(url matches ".*/product/.*")
+then
+    $req.setService(productAdapter);
+end
